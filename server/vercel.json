@@ -2,9 +2,9 @@
     "version": 2,
     "name": "loan-app",
     "builds": [
-       { "src": "server.js", "use": "@now/node" }
+       { "src": "index.js", "use": "@now/node" }
     ],
     "routes": [
-       { "src": "/(.*)", "dest": "server.js" }
+       { "src": "/(.*)", "dest": "/index.js" }
     ]
  }
