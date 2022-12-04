@@ -1,0 +1,16 @@
+// Loan Modal...
+const mongoose = require('mongoose');
+
+// Loan Schema..
+const periodSchema = mongoose.Schema({
+  isPaid: { type: Boolean, default: false },
+  isActive: { type: Boolean, default: false },
+  date: { type: String },
+}, {
+    timestamps: true
+});
+
+// Loan Model..
+const Period = mongoose.model('Period', periodSchema);
+
+module.exports = Period;
