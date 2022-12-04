@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "nodemon test/test.js",
-    "server": "nodemon server.js",
+    "server": "nodemon index.js",
     "server-install": "npm install",
     "client": "npm run ios --prefix client",
     "client-android": "npm run android --prefix client",
