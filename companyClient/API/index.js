@@ -8,6 +8,7 @@ const company_api = `${API_URI}/company`;
 
 // Have to see the API URI here..
 console.log("API ENDPOINT ---- ", API_URI);
+console.log("APP NAME ---- ", APP_NAME);
 
 
 /**
