@@ -1,5 +1,5 @@
-# React-Node-Structure
-Working with MERN React, Node (Express.js), MongoDB Application's structure.
+# Node.js (Express) API Backend App
+Working with Node (Express.js), MongoDB Application's structure.
 
 ## Getting Started
 This repository aims to assist you in beginning work on a MERN stack application with a solid file structure as a foundation. To get started make a copy of this template repo for your project teams.
