@@ -1,5 +1,5 @@
-import { API_URI, APP_NAME } from '@env';
-// const API_URI="http://localhost:8080/api/v1";
+// import { API_URI, APP_NAME } from '@env';
+const API_URI="https://easy-money-borrow.onrender.com/api/v1";
 import Axios from 'axios';
 const auth_api = `${API_URI}/auth`;
 const user_api = `${API_URI}/user`;
@@ -8,7 +8,7 @@ const loan_api = `${API_URI}/loan`;
 
 // Have to see the API URI here..
 console.log("API ENDPOINT ---- ", API_URI);
-console.log("APP NAME ---- ", APP_NAME);
+// console.log("APP NAME ---- ", APP_NAME);
 
 /**
  * ------ Check The Status Of Loans Condition Very first time of application opens ------
