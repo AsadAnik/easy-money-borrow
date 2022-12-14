@@ -1,11 +1,14 @@
 import { useState } from 'react';
-import { View, Text, Alert, ImageBackground, StyleSheet } from 'react-native';
+import { View, Text, Alert, ImageBackground, StyleSheet, Dimensions } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import * as Animatable from 'react-native-animatable';
 import { Button } from '../../components/widgets/Button';
 import { loanRequest } from '../../API';
 import { calculateWithInterest, calculateWithPayDuration } from '../../services/calculations';
 import Loading from '../../components/widgets/Loading';
+
+// Device Screen Accual Width..
+const windowWidth = Dimensions.get('window').width;
 
 
 // The Loan Status here..
@@ -114,28 +117,28 @@ const LoanStatus = ({ navigation, route }) => {
                         </View> */}
                     </View>
 
-                    <View style={{ flexDirection: 'row', marginTop: 50 }}>
-                        <View style={{ flex: 1, marginLeft: 15 }}>
+                    <View style={{ flexDirection: 'row', marginTop: 40 }}>
+                        <View style={{ flex: 1 }}>
                             <Button
                                 title="Cancel"
                                 color1st="red"
                                 color2nd="maroon"
                                 size={20}
                                 textColor="white"
-                                width={100}
+                                width={windowWidth - 1000}
                                 height={50}
                                 onPress={() => navigation.navigate("MainTabs")}
                             />
                         </View>
 
-                        <View style={{ flex: 2 }}>
+                        <View style={{ flex: 2, marginLeft: 15 }}>
                             <Button
                                 title="Make Requests"
                                 color1st="lightgreen"
                                 color2nd="green"
                                 size={20}
                                 textColor="white"
-                                width={200}
+                                width={windowWidth - 1000}
                                 height={50}
                                 onPress={() => handleSubmitRequest()}
                             />

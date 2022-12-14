@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { View, Text, StyleSheet, ImageBackground, Alert } from "react-native";
+import { View, Text, StyleSheet, ImageBackground, Alert, Dimensions } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import InputField from "../../components/widgets/InputField";
 import { Button } from "../../components/widgets/Button";
@@ -8,6 +8,10 @@ import * as Animatable from "react-native-animatable";
 import SelectDropdown from "react-native-select-dropdown";
 import { getCompanies } from "../../API";
 import SliderRange from "../../components/widgets/SliderRange";
+
+
+// Device Screen Dimensions..
+const widthWidth = Dimensions.get('window').width;
 
 // Home Component...
 const Home = ({ navigation }) => {
@@ -114,7 +118,7 @@ const Home = ({ navigation }) => {
             buttonStyle={{
               borderRadius: 10,
               backgroundColor: "lightgray",
-              width: 350,
+              width: widthWidth - 30 * 2,
               margin: 10,
               padding: 10,
             }}
@@ -185,7 +189,7 @@ const Home = ({ navigation }) => {
               color2nd="royalblue"
               size={18}
               textColor="white"
-              width="100%"
+              width={widthWidth - 30 * 2}
               height={50}
               onPress={() => handleSubmitRequest()}
             />

@@ -1,4 +1,8 @@
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Dimensions } from 'react-native';
+
+// Device Screen Width..
+const windowWidth = Dimensions.get('window').width;
+
 
 const InputField = ({ label, placeholder, value, keyboardType, onChangeText }) => {
     return (
@@ -30,7 +34,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'lightgray',
         margin: 10,
         textAlign: 'center',
-        borderRadius: 10
+        borderRadius: 10,
+        width: windowWidth - 30 * 2,
     }
 });
 

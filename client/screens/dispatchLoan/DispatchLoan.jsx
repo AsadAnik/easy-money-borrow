@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import { View, StyleSheet, Alert, Text } from "react-native";
-import InputField from "../../components/widgets/InputField";
+import { View, StyleSheet, Alert, Text, Dimensions } from "react-native";
+// import InputField from "../../components/widgets/InputField";
 import { Button } from "../../components/widgets/Button";
 import { dispatchLoan, getLoanDetailsByLoanId } from "../../API";
 import * as Animatable from "react-native-animatable";
@@ -10,10 +10,12 @@ import BottomSheet from "../../components/widgets/BottomSheet";
 import SliderRange from "../../components/widgets/SliderRange";
 // import { getFormatedDate } from '../../services/dateFormatService';
 
-// label, placeholder, keyboardType, onChangeText
+// Get the dimentions there..
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
-// title, color1st, color2nd, size, textColor, width, height, onPress, children
 
+// Dispatch Loan there..
 const DispatchLoan = ({ navigation, route }) => {
   const [data, setData] = useState(0);
   const [rangeMonthValue, setRangeMonthValue] = useState(0);
@@ -206,13 +208,13 @@ const DispatchLoan = ({ navigation, route }) => {
       </View>
 
       {/* ----- The Input Field For Data Take ----- */}
-      <InputField
+      {/* <InputField
         label={"Dispatch Amount"}
         placeholder={`${parseInt(loanInfo?.payPerMonth) * rangeMonthValue} TK`}
         keyboardType={"numeric"}
         value={data}
         onChangeText={(text) => setData(text)}
-      />
+      /> */}
 
       {/* ---- Move To Dispatch Loan Section ----- */}
       <View style={{ alignSelf: "center", marginTop: 20 }}>
@@ -220,7 +222,7 @@ const DispatchLoan = ({ navigation, route }) => {
           <OutlineButton
             title="See All Dates Log"
             color="brown" 
-            width={380}
+            width={windowWidth - 30}
             height={40}
             size={15}
             onPress={() => handleBottomSheetOpen()}
@@ -233,7 +235,7 @@ const DispatchLoan = ({ navigation, route }) => {
           color2nd={"red"}
           size={18}
           textColor={"white"}
-          width={380}
+          width={windowWidth - 30}
           height={50}
           onPress={() => handleDispatch()}
         />
@@ -263,7 +265,7 @@ const DispatchLoan = ({ navigation, route }) => {
               color2nd={"brown"}
               textColor={"white"}
               size={18}
-              width={340}
+              width={windowWidth - 60}
               height={40}
               onPress={() => handleBottomSheetClose()}
             />

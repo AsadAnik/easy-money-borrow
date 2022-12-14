@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   ImageBackground,
+  Dimensions
 } from "react-native";
 import { AntDesign, Feather } from "@expo/vector-icons";
 // import Header from '../../components/Header/Header';
@@ -15,7 +16,10 @@ import Loading from "../../components/widgets/Loading";
 import { authChecker } from "../../API";
 import * as Animatable from "react-native-animatable";
 
-// title, color, height, width, size, onPress, children
+
+// Device Screen Width..
+const windowWidth = Dimensions.get('window').width;
+
 
 const Profile = ({ navigation }) => {
   const [showBalance, setShowBalance] = useState(false);
@@ -290,6 +294,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignSelf: "center",
     marginTop: 20,
+    marginRight: '30%',
     backgroundColor: "lightgray",
     width: 60,
     padding: 5,

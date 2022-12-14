@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Button } from '../../components/widgets/Button';
 import { getLoanDetailsByLoanId, getCompanyById } from '../../API';
 import { calculateWithInterest, calculateWithPayDuration } from '../../services/calculations';
 import { getFormatedDate } from '../../services/dateFormatService';
 
-// title, color1st, color2nd, size, textColor, width, height, onPress, children
+// Device Screens width..
+const windowWidth = Dimensions.get('window').width;
+
 
 // Loan Details Screen ..
 const LoanDetails = ({ navigation, route }) => {
@@ -179,7 +181,7 @@ const LoanDetails = ({ navigation, route }) => {
                             color2nd={"chocolate"}
                             size={18}
                             textColor={"white"}
-                            width={380}
+                            width={windowWidth - 30}
                             height={50}
                             onPress={() => navigation.navigate("DispatchLoan", data._id)}
                         />
@@ -192,7 +194,7 @@ const LoanDetails = ({ navigation, route }) => {
                             color2nd={"maroon"}
                             size={18}
                             textColor={"white"}
-                            width={380}
+                            width={windowWidth - 30}
                             height={50}
                             onPress={() => navigation.navigate("MyRequests")}
                         />

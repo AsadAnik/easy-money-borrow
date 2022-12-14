@@ -303,7 +303,8 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
         paddingVertical: 30,
-        paddingHorizontal: 20
+        paddingHorizontal: 20,
+        paddingBottom: 100
     },
     title: {
         fontSize: 30,
