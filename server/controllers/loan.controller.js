@@ -107,17 +107,17 @@ const loanDetailsById = async function (req, res) {
  * @param {*} req 
  * @param {*} res 
  */
-const dispatchAction = async function (req, res){
-    const { request } = req.query;
+// const dispatchAction = async function (req, res){
+//     const { request } = req.query;
 
-    if (request === "ACCEPTED") {
-        loanDispatch();
-    } else if (request === "DENIED") {
+//     if (request === "ACCEPTED") {
+//         loanDispatch();
+//     } else if (request === "DENIED") {
 
-    } else {
+//     } else {
 
-    }
-};
+//     }
+// };
 
 
 /**
