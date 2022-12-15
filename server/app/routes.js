@@ -20,7 +20,7 @@ router.use(`${API_ENDPOINT}/user`, auth, UserRoutes);
 
 // At the Initial Route Endpoint..
 router.get('/', (_req, res) => {
-    res.status(200).send("<div style='text-align: center;'><h1>You Can Check The API Documentation.</h1> <br> <a href='' target='_blank'>Check With PostMan</a></div>");
+    res.status(200).send("<div style='text-align: center;'><h1>You Can Check The API Documentation.</h1> <br> <a href='https://app.getpostman.com/join-team?invite_code=e503ed54037ddc5d25499a1c0f316e02&target_code=b916ae7c8e2aa82fa19a77601d506198' target='_blank'>Check With PostMan</a></div>");
 });
 
 // Initial Health Checker endpoint..
