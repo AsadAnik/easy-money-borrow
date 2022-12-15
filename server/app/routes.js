@@ -20,7 +20,7 @@ router.use(`${API_ENDPOINT}/user`, auth, UserRoutes);
 
 // At the Initial Route Endpoint..
 router.get('/', (_req, res) => {
-    res.status(200).send("<h1>You Can Check The API Documentation.</h1> <br> <a href=''>Check With PostMan</a>");
+    res.status(200).send("<div style='text-align: center;'><h1>You Can Check The API Documentation.</h1> <br> <a href='' target='_blank'>Check With PostMan</a></div>");
 });
 
 // Initial Health Checker endpoint..
