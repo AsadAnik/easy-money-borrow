@@ -4,7 +4,7 @@
     "slug": "Easy-Money-Company",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/companyAppIcon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -22,9 +22,10 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/companyAppIcon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.asad_anik.EasyMoneyCompany"
     },
     "web": {
       "favicon": "./assets/favicon.png"

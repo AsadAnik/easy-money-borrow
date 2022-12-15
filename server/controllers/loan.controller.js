@@ -102,6 +102,23 @@ const loanDetailsById = async function (req, res) {
 };
 
 
+/**
+ * ---- Dispatch Action taker (Accept Or Denied) ----
+ * @param {*} req 
+ * @param {*} res 
+ */
+const dispatchAction = async function (req, res){
+    const { request } = req.query;
+
+    if (request === "ACCEPTED") {
+        loanDispatch();
+    } else if (request === "DENIED") {
+
+    } else {
+
+    }
+};
+
 
 /**
 * ---- Dispatching The Loan ----
