@@ -18,6 +18,11 @@ router.use(`${API_ENDPOINT}/company`, authCompany, CompanyRoutes);
 router.use(`${API_ENDPOINT}/auth`, AuthRoutes);
 router.use(`${API_ENDPOINT}/user`, auth, UserRoutes);
 
+// At the Initial Route Endpoint..
+router.get('/', (_req, res) => {
+    res.status(200).send("<h1>You Can Check The API Documentation.</h1> <br> <a href=''>Check With PostMan</a>");
+});
+
 // Initial Health Checker endpoint..
 router.get('/health', (_req, res) => {
     res.status(200).json({ message: 'Success' });
