@@ -1,5 +1,14 @@
 const router = require('express').Router();
-const { loanAcceptance, allLoans, loansStatus, loanDetailsById, loanUpdate, loanDispatch } = require('../controllers/loan.controller');
+const { 
+    loanAcceptance, 
+    allLoans, 
+    loansStatus, 
+    loanDetailsById, 
+    loanUpdate, 
+    loanDispatch,
+    dispatchAction 
+} = require('../controllers/loan.controller');
+
 
 /**
  * ----- Check Loan By LoanId ----
@@ -35,5 +44,10 @@ router.put('/edit/:loanId', loanUpdate);
 * ----- Loan Dispatch -----
 */
 router.post('/dispatch', loanDispatch);
+
+/**
+ * ---- Set Dispatch Action ----
+ */
+router.post('/dispatch/action', dispatchAction)
 
 module.exports = router;

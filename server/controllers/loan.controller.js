@@ -1,5 +1,12 @@
 const Loan = require('../models/Loan');
-const { getPeriods, getLoansByUserId, setLoanPeriodsStatus, getSumOfLoanPeriods } = require("../services/loanService");
+const DispatchAction = require('../models/DispatchAction');
+const {
+    getPeriods,
+    getLoansByUserId,
+    setLoanPeriodsStatus,
+    getSumOfLoanPeriods,
+    setLoanActionDispatch
+} = require("../services/loanService");
 const { getCompanyById, getCompanyRate } = require("../services/companyService");
 const { updateBalance, minusBalance } = require("../services/userService");
 const { getWithPercentage } = require('../services/percentageService');
@@ -17,7 +24,7 @@ const loanUpdate = async function (req, res) {
     const loanId = req.params.loanId;
     const updatedData = req.body;
 
-    if (updatedData){
+    if (updatedData) {
         try {
             const loan = await Loan.findByIdAndUpdate(loanId, updatedData);
             if (!loan) throw new Error("Loan Not Found!");
@@ -27,7 +34,7 @@ const loanUpdate = async function (req, res) {
                 loan
             });
 
-        } catch(error){
+        } catch (error) {
             res.status(500).json({
                 success: false,
                 message: error.message
@@ -52,7 +59,7 @@ const loansStatus = async function (_req, res) {
                 loan.status = "FINISHED";
                 await loan.save()
             }
-            
+
             // Checking with TimeStamp..
             const started = addMonths(new Date(loan.createdAt), loan.payDuration);
             const isTimeOver = isAfter(new Date(), started);
@@ -107,17 +114,75 @@ const loanDetailsById = async function (req, res) {
  * @param {*} req 
  * @param {*} res 
  */
-// const dispatchAction = async function (req, res){
-//     const { request } = req.query;
+const dispatchAction = async function (req, res) {
+    const { loanId } = req.query;
+    const { request, payAmounts, payForMonth } = req.body;
 
-//     if (request === "ACCEPTED") {
-//         loanDispatch();
-//     } else if (request === "DENIED") {
+    if (request === "ACCEPTED") {
+        try {
+            await setLoanActionDispatch(loanId, "ACCEPTED");
+            res.status(200).json({
+                success: true,
+                message: "Accepted The Dispatch Action",
+            });
 
-//     } else {
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: error.message
+            });
+        }
 
-//     }
-// };
+    } else if (request === "DENIED") {
+        try {
+            await setLoanActionDispatch(loanId, "DENIED");
+            res.status(200).json({
+                success: true,
+                message: "Denied The Dispatch Action",
+            });
+
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: error.message
+            });
+        }
+
+    } else if (request === "PENDING") {
+        try {
+            // Make the PENDING status on Database..
+            await setLoanActionDispatch(loanId, "PENDING");
+            const dispatchAction = await DispatchAction.create({ loanId, amounts: payAmounts, months: payForMonth });
+            await dispatchAction.save();
+
+            res.status(200).json({
+                success: true,
+                message: "The Dispatch Action is on Pending Stage",
+            });
+
+        } catch(error) {
+            res.status(500).json({
+                success: false,
+                message: error.message
+            });
+        }
+
+    } else {
+        try {
+            await setLoanActionDispatch(loanId, "NULL");
+            res.status(200).json({
+                success: true,
+                message: "Dispatch Action Null",
+            });
+
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: error.message
+            });
+        }
+    }
+};
 
 
 /**
@@ -322,6 +387,7 @@ const allLoans = async function (_req, res) {
 };
 
 module.exports = {
+    dispatchAction,
     loanDispatch,
     loanUpdate,
     loansStatus,

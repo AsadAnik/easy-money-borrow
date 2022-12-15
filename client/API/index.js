@@ -1,5 +1,5 @@
 // import { API_URI, APP_NAME } from '@env';
-const API_URI="https://easy-money-borrow.onrender.com/api/v1";
+const API_URI = "http://192.168.0.175:8080/api/v1";
 import Axios from 'axios';
 const auth_api = `${API_URI}/auth`;
 const user_api = `${API_URI}/user`;
@@ -24,6 +24,28 @@ export async function loanStatus(){
 
     } catch (err) {
         console.log('ERR! When try to check loan status -- ', err.message);
+    }
+}
+
+/**
+ * ----- Dispatch Action ------
+ * @param {String} loanId 
+ * @param {Object} data 
+ * @returns 
+ */
+export async function dispatchAction(loanId, data){
+    const loan_dispatch_action_endpoint = `${loan_api}/dispatch/action?loanId=${loanId}`;
+
+    try {
+        const request = await Axios.post(loan_dispatch_action_endpoint, {
+            request: data.request,
+            payAmounts: data.payAmounts,
+            payForMonth: data.payForMonth
+        });
+        return request?.data;
+
+    } catch(err) {
+        console.log('ERR! When Try to make Action Dispatch -- ', err.message);
     }
 }
 

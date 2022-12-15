@@ -3,7 +3,7 @@ import { Ionicons, AntDesign } from '@expo/vector-icons';
 // import { MaterialIcons } from '@expo/vector-icons';
 
 import HomeScreen from './home/LoanRequests';
-// import MyRequestsScreen from './MyRequests/MyRequests';
+import DispatchActionScreen from './dispatchAction/DispatchAction';
 import ProfileScreen from './Profile/Profile';
 
 // Tab Navigation..
@@ -29,16 +29,16 @@ const MainTabs = () => {
                 }}
             />
 
-            {/* <Tab.Screen
+            <Tab.Screen
                 name="MyRequests"
-                component={MyRequestsScreen}
+                component={DispatchActionScreen}
                 options={{
-                    tabBarLabel: 'Requests',
+                    tabBarLabel: 'Dispatchs',
                     tabBarIcon: ({ color }) => (
-                        <MaterialIcons name="request-quote" size={24} color={color} />
+                        <AntDesign name="swap" size={24} color={color} />
                     ),
                 }}
-            /> */}
+            />
 
             <Tab.Screen
                 name="Profile"

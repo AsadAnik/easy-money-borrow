@@ -1,5 +1,5 @@
-import { APP_NAME, API_URI } from '@env';
-// const API_URI = "http://192.168.0.175:8080/api/v1";
+// import { APP_NAME, API_URI } from '@env';
+const API_URI = "http://192.168.0.175:8080/api/v1";
 import Axios from 'axios';
 const auth_api = `${API_URI}/auth`;
 const user_api = `${API_URI}/user`;
@@ -8,7 +8,7 @@ const company_api = `${API_URI}/company`;
 
 // Have to see the API URI here..
 console.log("API ENDPOINT ---- ", API_URI);
-console.log("APP NAME ---- ", APP_NAME);
+// console.log("APP NAME ---- ", APP_NAME);
 
 
 /**

@@ -11,7 +11,7 @@ const loanSchema = mongoose.Schema({
     companyId: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' },
     request: { type: String, default: 'PENDING', enum: ['PENDING', 'ACCEPTED', 'DENIED'] },
     status: { type: String, default: 'NULL', enum: ['NULL', 'RUNNING', 'FINISHED'] },
-    dispatchAction: { type: String, default: 'PENDING', enum: ['PENDING', 'ACCEPTED', 'DENIED'] },
+    dispatchAction: { type: String, default: 'NULL', enum: ['NULL', 'PENDING', 'ACCEPTED', 'DENIED'] },
     payDuration: { type: Number, required: false, default: 6 },
     staticPayDuration: { type: Number, required: false, default: 6 },
     requestedTo: { type: String, required: false },

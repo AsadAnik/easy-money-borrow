@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { View, StyleSheet, Alert, Text, Dimensions } from "react-native";
 // import InputField from "../../components/widgets/InputField";
 import { Button } from "../../components/widgets/Button";
-import { dispatchLoan, getLoanDetailsByLoanId } from "../../API";
+import { dispatchLoan, getLoanDetailsByLoanId, dispatchAction } from "../../API";
 import * as Animatable from "react-native-animatable";
 import PickUpDuration from "./PickUpDuration";
 import { OutlineButton } from "../../components/widgets/Button";
@@ -12,7 +12,7 @@ import SliderRange from "../../components/widgets/SliderRange";
 
 // Get the dimentions there..
 const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+// const windowHeight = Dimensions.get('window').height;
 
 
 // Dispatch Loan there..
@@ -28,7 +28,7 @@ const DispatchLoan = ({ navigation, route }) => {
   });
 
   // Functionality for bottomsheet here..
-  const [isBottomSheetOpen, setBottomSheetOpen] = useState(false);
+  const [_isBottomSheetOpen, setBottomSheetOpen] = useState(false);
   const bottomSheetRef = useRef(null);
 
   // To Open The Bottom Sheet..
@@ -97,30 +97,37 @@ const DispatchLoan = ({ navigation, route }) => {
 
   // handle the loan submittion here..
   const handleDispatch = async () => {
-    if (data && rangeMonthValue) {
-      const dispatch = await dispatchLoan(loanId, {
-        payAmounts: data,
-        payForMonth: rangeMonthValue,
+    if (rangeMonthValue) {
+      // const dispatch = await dispatchLoan(loanId, {
+      //   payAmounts: data,
+      //   payForMonth: rangeMonthValue,
+      // });
+      // console.log("Dispatch -- ", dispatch);
+
+      const amounts = dispatchAmounts(loanInfo?.payPerMonth, rangeMonthValue);
+
+      const response = await dispatchAction(loanId, {
+          request: "PENDING",
+          payAmounts: amounts,
+          payForMonth: rangeMonthValue
       });
 
-      console.log("Dispatch -- ", dispatch);
-
-      if (dispatch) {
-        if (dispatch.success) {
-          navigation.navigate("DispatchDone", dispatch);
+      if (response) {
+        if (response.success) {
+          navigation.navigate("DispatchDone", response);
         }
 
-        if (!dispatch.success) {
+        if (!response.success) {
           setError({
             ...error,
             error: true,
-            message: dispatch.message,
-            amounts: dispatch.amounts,
+            message: response.message,
+            amounts: response.amounts,
           });
 
           Alert.alert(
-            `${dispatch.message} ${
-              dispatch.amounts ? ` - ${dispatch.amounts} TK` : ""
+            `${response.message} ${
+              response.amounts ? ` - ${response.amounts} TK` : ""
             }`
           );
 
@@ -230,7 +237,7 @@ const DispatchLoan = ({ navigation, route }) => {
         </View>
 
         <Button
-          title={"Dispatch Loan"}
+          title={"Dispatch Loan Request"}
           color1st={"orange"}
           color2nd={"red"}
           size={18}
