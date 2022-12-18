@@ -12,6 +12,23 @@ console.log("API ENDPOINT ---- ", API_URI);
 
 
 /**
+ * --------- Getting the Pending Dispatchs as List -------
+ * @returns
+ */
+export async function getPendingDispatchs() {  
+    // Loan Dispatch endpoint..
+    const get_pending_dispatch_endpoint = `${loan_api}/dispatch/pendingList`;
+
+    try {
+        const request = await Axios.get(get_pending_dispatch_endpoint);
+        return request?.data;
+
+    } catch (err) {
+        console.log('ERR! When Try to Dispatch Loan -- ', err.message);
+    }
+};
+
+/**
  * ------- Dispatch Loan By LoanId --------
  * @param {String} loanId 
  * @returns 
