@@ -1,12 +1,16 @@
 import { useState, useEffect } from 'react';
-import { View, TouchableOpacity, Alert, Text } from 'react-native';
+import { View, Alert, Text, ScrollView, RefreshControl } from 'react-native';
 import Header from '../../components/Header/Header';
 import LoanRequestCard from '../../components/LoanLogCard/LoanLogCard';
-import { getPendingDispatchs } from '../../API';
+import { getPendingDispatchs, getLoanDetailsByLoanId } from '../../API';
 import { getFormatedDate } from '../../services/dateFormatService';
 
+
+// Dispatch Action Component..
 const DispatchAction = () => {
     const [pendingDispatchData, setPendingDispatchData] = useState([]);
+    const [loanInfo, setLoanInfo] = useState([]);
+    const [refresh, setRefresh] = useState(false);
 
     const fetchData = async () => {
         const response = await getPendingDispatchs();
@@ -18,9 +22,24 @@ const DispatchAction = () => {
 
             if (response.success) {
                 setPendingDispatchData(response.loans);
+                const { loanId } = response.loans;
+                const loanResponse = await getLoanDetailsByLoanId(loanId);
+
+                if (loanResponse){
+                    if (!loanResponse.success){
+                        Alert.alert(loanResponse.message);
+                    }
+
+                    if (loanResponse.success){
+                        const { loan: loanInfo } = loanResponse;
+                        setLoanInfo(loanInfo);
+                    }
+                }
             }
         }
     };
+
+    console.log('The Loan Info -- ', loanInfo);
 
     useEffect(() => {
         fetchData();
@@ -33,6 +52,20 @@ const DispatchAction = () => {
 
     console.log('Pending ---- ', pendingDispatchData);
 
+    // When Pull Down Refreshed the page..
+    const pullMe = () => {
+        setRefresh(true);
+
+        if (pendingDispatchData.length) {
+            fetchData();
+            // checkLoanStatus();
+        }
+
+        setTimeout(() => {
+            setRefresh(false);
+        }, 1000);
+    };
+
     const renderPendingDispatchList = (data) => {
         if (data.length) {
             return data.map(pendingDispatch => {
@@ -40,8 +73,8 @@ const DispatchAction = () => {
                     <View key={pendingDispatch._id}>
                         <LoanRequestCard
                             // type={"PENDING"}
-                            status={pendingDispatch.dispatchAction}
-                            amount={1200}
+                            status={pendingDispatch.status}
+                            amount={pendingDispatch.amounts}
                             staticAmounts={"1200"}
                             duration={pendingDispatch.payDuration}
                             staticDuration={pendingDispatch.staticPayDuration}
@@ -68,22 +101,13 @@ const DispatchAction = () => {
         <View>
             <Header>Dispatch Actions</Header>
 
-            <TouchableOpacity>
-                {/* <LoanRequestCard
-                    type={"PENDING"}
-                    status={"NULL"}
-                    amount={1200}
-                    staticAmounts={"1200"}
-                    duration={5}
-                    staticDuration={5}
-                    company={"loan.companyId"}
-                    userId={"loan.userId"}
-                    startedDate={"getFormatedDate(new Date(loan?.createdAt))"}
-                // onPress={() => navigation.navigate("Acceptance", loan)}
-                /> */}
-
+            <ScrollView 
+                refreshControl={
+                    <RefreshControl refreshing={refresh} onRefresh={() => pullMe()} />
+                }
+            >
                 {renderPendingDispatchList(pendingDispatchData)}
-            </TouchableOpacity>
+            </ScrollView>
         </View>
     );
 };
