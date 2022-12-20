@@ -6,7 +6,8 @@ const {
     loanDetailsById, 
     loanUpdate, 
     loanDispatch,
-    dispatchAction 
+    dispatchAction,
+    getAllDispatchPendings
 } = require('../controllers/loan.controller');
 
 
@@ -48,6 +49,11 @@ router.post('/dispatch', loanDispatch);
 /**
  * ---- Set Dispatch Action ----
  */
-router.post('/dispatch/action', dispatchAction)
+router.post('/dispatch/action', dispatchAction);
+
+/**
+ * ---- The Pending Dispatch Action List ----
+ */
+router.get('/dispatch/pendingList', getAllDispatchPendings);
 
 module.exports = router;

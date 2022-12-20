@@ -1,5 +1,5 @@
 // import { API_URI, APP_NAME } from '@env';
-const API_URI = "http://192.168.0.175:8080/api/v1";
+const API_URI = "http://localhost:8080/api/v1";
 import Axios from 'axios';
 const auth_api = `${API_URI}/auth`;
 const user_api = `${API_URI}/user`;
@@ -39,8 +39,11 @@ export async function dispatchAction(loanId, data){
     try {
         const request = await Axios.post(loan_dispatch_action_endpoint, {
             request: data.request,
+            userId: data.userId,
             payAmounts: data.payAmounts,
-            payForMonth: data.payForMonth
+            staticAmounts: data.staticAmounts,
+            payForMonth: data.payForMonth,
+            staticMonths: data.staticMonths
         });
         return request?.data;
 

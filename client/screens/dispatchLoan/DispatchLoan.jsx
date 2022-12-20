@@ -17,7 +17,7 @@ const windowWidth = Dimensions.get('window').width;
 
 // Dispatch Loan there..
 const DispatchLoan = ({ navigation, route }) => {
-  const [data, setData] = useState(0);
+  // const [data, setData] = useState(0);
   const [rangeMonthValue, setRangeMonthValue] = useState(0);
   const loanId = route.params;
   const [loanInfo, setLoanInfo] = useState({});
@@ -53,7 +53,10 @@ const DispatchLoan = ({ navigation, route }) => {
         nextPayDate: response?.loan?.nextPayDate,
         expiredDate: response?.loan?.expiredDate,
         payDuration: response?.loan?.payDuration,
+        staticPayDuration: response?.loan?.staticPayDuration,
+        staticAmounts: response?.loan?.staticAmounts,
         loanPeriods: response?.loan?.loanPeriods,
+        userId: response?.loan?.userId,
       });
     }
   };
@@ -109,7 +112,10 @@ const DispatchLoan = ({ navigation, route }) => {
       const response = await dispatchAction(loanId, {
           request: "PENDING",
           payAmounts: amounts,
-          payForMonth: rangeMonthValue
+          staticAmounts: loanInfo?.staticAmounts,
+          payForMonth: rangeMonthValue,
+          staticMonths: loanInfo?.staticPayDuration,
+          userId: loanInfo?.userId
       });
 
       if (response) {

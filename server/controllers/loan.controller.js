@@ -13,6 +13,7 @@ const { getWithPercentage } = require('../services/percentageService');
 const { getMinutesFromNow, getMonthFromNow } = require('../services/getTimesService');
 const { getFormatedDate, getFormatedTime } = require('../services/dateFormatService');
 const { addMinutes, isAfter, addMonths } = require('date-fns');
+const { response } = require('../app/app');
 
 
 /**
@@ -108,6 +109,29 @@ const loanDetailsById = async function (req, res) {
     }
 };
 
+/**
+ * ---- Get All Dispatch Pendings ----
+ * @param {*} req 
+ * @param {*} res 
+ */
+const getAllDispatchPendings = async function (_req, res) {
+    try {
+        const pendingDispatchs = await DispatchAction.find({ status: 'PENDING' });
+        if (!pendingDispatchs) throw new Error("No Dispatch Found!");
+
+        res.status(200).json({
+            success: true,
+            pendings: pendingDispatchs
+        });
+
+    } catch(error){
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
+
 
 /**
  * ---- Dispatch Action taker (Accept Or Denied) ----
@@ -116,7 +140,7 @@ const loanDetailsById = async function (req, res) {
  */
 const dispatchAction = async function (req, res) {
     const { loanId } = req.query;
-    const { request, payAmounts, payForMonth } = req.body;
+    const { request, payAmounts, staticAmounts, payForMonth, staticMonths, userId } = req.body;
 
     if (request === "ACCEPTED") {
         try {
@@ -152,7 +176,7 @@ const dispatchAction = async function (req, res) {
         try {
             // Make the PENDING status on Database..
             await setLoanActionDispatch(loanId, "PENDING");
-            const dispatchAction = await DispatchAction.create({ loanId, amounts: payAmounts, months: payForMonth });
+            const dispatchAction = await DispatchAction.create({ loanId, userId, amounts: payAmounts, staticAmounts, months: payForMonth, staticMonths });
             await dispatchAction.save();
 
             res.status(200).json({
@@ -160,7 +184,7 @@ const dispatchAction = async function (req, res) {
                 message: "The Dispatch Action is on Pending Stage",
             });
 
-        } catch(error) {
+        } catch (error) {
             res.status(500).json({
                 success: false,
                 message: error.message
@@ -387,6 +411,7 @@ const allLoans = async function (_req, res) {
 };
 
 module.exports = {
+    getAllDispatchPendings,
     dispatchAction,
     loanDispatch,
     loanUpdate,

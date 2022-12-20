@@ -2,14 +2,14 @@ import { useState, useEffect } from 'react';
 import { View, Alert, Text, ScrollView, RefreshControl } from 'react-native';
 import Header from '../../components/Header/Header';
 import LoanRequestCard from '../../components/LoanLogCard/LoanLogCard';
-import { getPendingDispatchs, getLoanDetailsByLoanId } from '../../API';
+import { getPendingDispatchs } from '../../API';
 import { getFormatedDate } from '../../services/dateFormatService';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
 // Dispatch Action Component..
 const DispatchAction = () => {
     const [pendingDispatchData, setPendingDispatchData] = useState([]);
-    const [loanInfo, setLoanInfo] = useState([]);
     const [refresh, setRefresh] = useState(false);
 
     const fetchData = async () => {
@@ -21,25 +21,12 @@ const DispatchAction = () => {
             }
 
             if (response.success) {
-                setPendingDispatchData(response.loans);
-                const { loanId } = response.loans;
-                const loanResponse = await getLoanDetailsByLoanId(loanId);
-
-                if (loanResponse){
-                    if (!loanResponse.success){
-                        Alert.alert(loanResponse.message);
-                    }
-
-                    if (loanResponse.success){
-                        const { loan: loanInfo } = loanResponse;
-                        setLoanInfo(loanInfo);
-                    }
-                }
+                setPendingDispatchData(response.pendings);
             }
         }
     };
 
-    console.log('The Loan Info -- ', loanInfo);
+    // console.log('The Loan Info -- ', loanInfo);
 
     useEffect(() => {
         fetchData();
@@ -50,11 +37,12 @@ const DispatchAction = () => {
         };
     }, []);
 
-    console.log('Pending ---- ', pendingDispatchData);
+    // console.log('Pending ---- ', pendingDispatchData);
 
     // When Pull Down Refreshed the page..
     const pullMe = () => {
         setRefresh(true);
+        fetchData();
 
         if (pendingDispatchData.length) {
             fetchData();
@@ -67,33 +55,43 @@ const DispatchAction = () => {
     };
 
     const renderPendingDispatchList = (data) => {
-        if (data.length) {
-            return data.map(pendingDispatch => {
-                return (
-                    <View key={pendingDispatch._id}>
-                        <LoanRequestCard
-                            // type={"PENDING"}
-                            status={pendingDispatch.status}
-                            amount={pendingDispatch.amounts}
-                            staticAmounts={"1200"}
-                            duration={pendingDispatch.payDuration}
-                            staticDuration={pendingDispatch.staticPayDuration}
-                            company={"LJO"}
-                            userId={pendingDispatch.userId}
-                            startedDate={getFormatedDate(new Date(pendingDispatch?.updatedAt))}
-                        // onPress={() => navigation.navigate("Acceptance", loan)}
-                        />
-                    </View>
-                );
-            });
-        }
-
-        if (!data.length) {
+        if (!data) {
             return (
-                <View>
-                    <Text>No Data</Text>
+                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 150 }}>
+                    <MaterialCommunityIcons name="flask-empty-off-outline" size={80} color="lightgray" />
+                    <Text style={{ fontWeight: 'bold', fontSize: 30, color: 'lightgray' }}>No Data</Text>
                 </View>
             );
+        }
+
+        if (data) {
+            if (data.length) {
+                return data.map(pendingDispatch => {
+                    return (
+                        <View key={pendingDispatch._id}>
+                            <LoanRequestCard
+                                type={"PENDING"}
+                                status={pendingDispatch.status}
+                                amount={pendingDispatch.amounts}
+                                staticAmounts={pendingDispatch.staticAmounts}
+                                duration={pendingDispatch.months}
+                                staticDuration={pendingDispatch.staticMonths}
+                                company={"LJO"}
+                                userId={pendingDispatch.userId}
+                                startedDate={getFormatedDate(new Date(pendingDispatch?.updatedAt))}
+                            // onPress={() => navigation.navigate("Acceptance", loan)}
+                            />
+                        </View>
+                    );
+                });
+            } else {
+                return (
+                    <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 150 }}>
+                        <MaterialCommunityIcons name="flask-empty-off-outline" size={80} color="lightgray" />
+                        <Text style={{ fontWeight: 'bold', fontSize: 30, color: 'lightgray' }}>Nothing To Dispatch</Text>
+                    </View>
+                );
+            }
         }
     };
 
@@ -101,7 +99,8 @@ const DispatchAction = () => {
         <View>
             <Header>Dispatch Actions</Header>
 
-            <ScrollView 
+            <ScrollView
+                style={{ padding: 5, height: '100%' }}
                 refreshControl={
                     <RefreshControl refreshing={refresh} onRefresh={() => pullMe()} />
                 }
